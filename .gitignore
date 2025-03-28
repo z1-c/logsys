@@ -1,0 +1,10 @@
+# 忽略编译生成的文件
+*.o
+*.exe
+*.out
+*.log
+*.db
+*.pro.user
+*.pro.sln
+*.pro.suo
+Makefile
