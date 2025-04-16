@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>管理员注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>管理员注册</h1>
+        <form method="post" action="{{ url_for('admin_register') }}">
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">密码：</label>
+            <input type="password" id="password" name="password" required>
+            <label for="confirm_password">确认密码：</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+            <button type="submit">注册</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

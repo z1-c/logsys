@@ -1,16 +1,16 @@
-QT += core gui sql
-CONFIG += c++11
-TARGET = logsys
+# logsys.pro
+QT       += core sql
+CONFIG   += c++11
+TARGET   = logsys
 TEMPLATE = app
-
-SOURCES += src/main.cpp \
-           src/dbmanager.cpp \
-           src/logupload.cpp \
-           src/userauth.cpp
-
-HEADERS += include/dbmanager.h \
-           include/logupload.h \
-           include/userauth.h
 
 INCLUDEPATH += include
 
+SOURCES  += src/main.cpp \
+            src/dbmanager.cpp \
+            src/logupload.cpp \
+            src/userauth.cpp
+
+HEADERS  += include/dbmanager.h \
+            include/logupload.h \
+            include/userauth.h
