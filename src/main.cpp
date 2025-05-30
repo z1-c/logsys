@@ -1,61 +1,45 @@
-// src/main.cpp
 #include <QCoreApplication>
 #include "dbmanager.h"
 #include "userauth.h"
 #include "logupload.h"
+#include "audit.h"
+#include "MainThreadObject.h"
+#include "UserOperation.h" // 包含 UserOperation 的定义
+#include <QThreadPool>
+#include <QRunnable>
+#include <QMutex>
+#include <QMetaObject>
 #include <QDebug>
+
+extern QMutex dbMutex; // 确保全局互斥锁已声明
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-
-    // 初始化数据库
-    if (!DBManager::initDatabase()) return -1;
-
-    // 测试用户注册
-    if (UserAuth::registerUser("testuser", "mypassword", "user")) { // 添加角色参数
-        qDebug() << "普通用户注册成功！";
-    } else {
-        qDebug() << "普通用户注册失败！";
+    qDebug() << "程序启动";
+    if (!DBManager::initDatabase()) {
+        qDebug() << "数据库初始化失败，程序退出";
+        return -1;
     }
+    qDebug() << "数据库初始化成功";
 
-    if (UserAuth::registerUser("adminuser", "adminpassword", "admin")) { // 添加角色参数
-        qDebug() << "管理员用户注册成功！";
-    } else {
-        qDebug() << "管理员用户注册失败！";
-    }
+    MainThreadObject mainThreadObject;
+    QThreadPool pool;
+    pool.setMaxThreadCount(10);
 
-    // 测试用户登录
-    if (UserAuth::loginUser("testuser", "mypassword")) {
-        qDebug() << "普通用户登录成功！";
-    } else {
-        qDebug() << "普通用户登录失败！";
-    }
+    UserOperation *registerOp1 = new UserOperation(&mainThreadObject, "testuser", "mypassword", "register");
+    pool.start(registerOp1);
 
-    if (UserAuth::loginUser("adminuser", "adminpassword")) {
-        qDebug() << "管理员用户登录成功！";
-    } else {
-        qDebug() << "管理员用户登录失败！";
-    }
+    UserOperation *loginOp1 = new UserOperation(&mainThreadObject, "testuser", "mypassword", "login");
+    pool.start(loginOp1);
 
-    // 测试日志上传
-    if (LogUpload::uploadLog("test.log", "testuser")) {
-        qDebug() << "日志上传成功！";
-    } else {
-        qDebug() << "日志上传失败！";
-    }
+    UserOperation *uploadOp = new UserOperation(&mainThreadObject, "testuser", "mypassword", "upload");
+    pool.start(uploadOp);
 
-    // 测试日志查询
-    QVector<QString> userLogs = LogUpload::queryLogs("testuser", "user");
-    qDebug() << "普通用户查询到的日志：";
-    for (const auto &log : userLogs) {
-        qDebug() << log;
-    }
+    UserOperation *queryOp1 = new UserOperation(&mainThreadObject, "testuser", "mypassword", "query");
+    pool.start(queryOp1);
 
-    QVector<QString> adminLogs = LogUpload::queryLogs("adminuser", "admin");
-    qDebug() << "管理员查询到的日志：";
-    for (const auto &log : adminLogs) {
-        qDebug() << log;
-    }
+    pool.waitForDone();
+    qDebug() << "所有任务完成";
 
     return a.exec();
 }

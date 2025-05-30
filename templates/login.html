@@ -14,14 +14,15 @@
             <input type="password" id="password" name="password" required>
             <button type="submit">登录</button>
         </form>
+        <p>还没有账号？<a href="{{ url_for('register') }}">注册新账号</a></p>
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% endwith %}
     </div>
 </body>

@@ -10,16 +10,20 @@
         <form method="post" enctype="multipart/form-data">
             <label for="file">选择日志文件：</label>
             <input type="file" id="file" name="file" required>
+            <label>
+                <input type="checkbox" name="encrypt" value="yes"> 加密文件
+            </label>
             <button type="submit">上传</button>
         </form>
+        <a href="{{ url_for('mylogs') }}">查看我的日志</a>
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% endwith %}
     </div>
 </body>

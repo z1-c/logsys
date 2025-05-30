@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑日志</title>
+</head>
+<body>
+    <h1>编辑日志</h1>
+    <form method="post">
+        <textarea name="content" rows="20" cols="80">{{ content }}</textarea><br>
+        <button type="submit">保存更改</button>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}">返回仪表盘</a>
+</body>
+</html>

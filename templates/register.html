@@ -16,14 +16,15 @@
             <input type="password" id="confirm_password" name="confirm_password" required>
             <button type="submit">注册</button>
         </form>
+        <p>已有账号？<a href="{{ url_for('login') }}">返回登录</a></p>
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% endwith %}
     </div>
 </body>

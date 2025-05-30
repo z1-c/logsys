@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>我的日志</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .log-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .log-actions a, .log-actions button {
+            padding: 5px 10px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .log-actions a:hover, .log-actions button:hover {
+            background: #555;
+        }
+        .log-content {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>我的日志</h1>
+        <a href="{{ url_for('upload') }}">返回上传页面</a>
+
+        {# 如果是查看单条日志详情 #}
+        {% if log and content %}
+        <div class="log-content">
+            <h3>查看日志：{{ log[0] }}</h3>  {# log[0] 是 filename #}
+            <p><strong>解密内容：</strong></p>
+            <pre>{{ content }}</pre>
+            <a href="{{ url_for('mylogs') }}">← 返回日志列表</a>
+        </div>
+        <hr>
+        {% endif %}
+
+        {# 日志列表 #}
+        <div class="log-list">
+            {% for log in logs %}
+            <div class="log-entry">
+                <div>
+                    <strong>日志 ID：</strong>{{ log[0] }}<br>
+                    <strong>文件名：</strong>{{ log[1] }}
+                </div>
+                <div class="log-actions">
+                    <a href="{{ url_for('view_log', log_id=log[0]) }}">查看</a>
+                    <form action="{{ url_for('delete_log', log_id=log[0]) }}" method="post">
+                        <button type="submit">删除</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
