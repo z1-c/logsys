@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <!DOCTYPE html> 
+=======
+<!DOCTYPE html>
+>>>>>>> dc25f83 (完成)
 <html>
 <head>
     <title>我的日志</title>
@@ -47,6 +51,7 @@
         .log-actions a:hover, .log-actions button:hover {
             background: #555;
         }
+<<<<<<< HEAD
         .log-content {
             margin-top: 30px;
             padding: 15px;
@@ -54,12 +59,15 @@
             border: 1px solid #ccc;
             white-space: pre-wrap;
         }
+=======
+>>>>>>> dc25f83 (完成)
     </style>
 </head>
 <body>
     <div class="container">
         <h1>我的日志</h1>
         <a href="{{ url_for('upload') }}">返回上传页面</a>
+<<<<<<< HEAD
 
         {# 如果是查看单条日志详情 #}
         {% if log and content %}
@@ -73,6 +81,8 @@
         {% endif %}
 
         {# 日志列表 #}
+=======
+>>>>>>> dc25f83 (完成)
         <div class="log-list">
             {% for log in logs %}
             <div class="log-entry">
@@ -92,4 +102,7 @@
     </div>
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc25f83 (完成)

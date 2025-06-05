@@ -31,7 +31,9 @@ bool DBManager::initDatabase() {
                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                "filename TEXT NOT NULL, "
                "content BLOB NOT NULL, "
-               "signature TEXT NOT NULL)");
+               "signature TEXT NOT NULL)"
+               "content TEXT NOT NULL, "
+               "username TEXT NOT NULL)");
 
     query.exec("CREATE TABLE IF NOT EXISTS audit_logs ("
                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
